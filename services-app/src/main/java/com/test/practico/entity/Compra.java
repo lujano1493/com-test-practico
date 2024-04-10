@@ -13,18 +13,22 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.test.practico.enums.Estatus;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -32,6 +36,8 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Compra implements Serializable {
 	/**
@@ -50,16 +56,16 @@ public class Compra implements Serializable {
 	
 	private Date fechaUltimaActualizacion;
 	
+
 	@Enumerated(EnumType.ORDINAL)
 	private Estatus estatus;
 	
-	@ManyToOne( cascade = CascadeType.ALL , optional = false ,fetch = FetchType.LAZY )
+	@ManyToOne(  optional = false ,fetch = FetchType.LAZY )
+	@JoinColumn(name="cliente_id")
 	@JsonBackReference
 	@ToString.Exclude
 	private Cliente cliente;
 	
-	
-	//@ManyToMany(cascade =  CascadeType.ALL ,fetch = FetchType.LAZY )
 	
 	@OneToMany ( cascade = CascadeType.ALL, fetch = FetchType.LAZY ,mappedBy = "compra")
 	@JsonManagedReference
@@ -75,6 +81,9 @@ public class Compra implements Serializable {
 		}
 		if( fechaUltimaActualizacion == null ) {
 			fechaUltimaActualizacion= new Date();
+		}
+		if( estatus == null ) {
+			estatus= Estatus.ACTIVO;
 		}
 		
 	}

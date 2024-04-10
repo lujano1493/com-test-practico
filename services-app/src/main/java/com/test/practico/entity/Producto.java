@@ -15,11 +15,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.test.practico.enums.Estatus;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -28,6 +31,8 @@ import lombok.ToString;
 @Setter
 @ToString
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Producto implements Serializable {
 
 	/**
@@ -49,7 +54,7 @@ public class Producto implements Serializable {
 	private Estatus estatus;
 	
 	@OneToMany( cascade = CascadeType.ALL , fetch = FetchType.LAZY, mappedBy = "produto")
-	@JsonManagedReference
+	@JsonBackReference
 	@ToString.Exclude
 	private List<CompraDetalle> detalles;
 	

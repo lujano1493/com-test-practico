@@ -17,17 +17,24 @@ import javax.persistence.PrePersist;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.test.practico.enums.Estatus;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 @Entity
 @Getter
 @Setter
 @ToString
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Slf4j
 public class Cliente implements Serializable{
+	
 	/**
 	 * 
 	 */
@@ -42,7 +49,7 @@ public class Cliente implements Serializable{
 	@Column(  length = 50)
 	private String nombre;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente"  )
+	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "cliente" , orphanRemoval = true)
 	@JsonManagedReference
 	@ToString.Exclude
 	private List<Compra> compras;
@@ -51,7 +58,9 @@ public class Cliente implements Serializable{
 	public void beforeSave() {
 		if(  estatus==null ) {
 			estatus= Estatus.ACTIVO;
-		}
+		}		
+		log.info("before save cliente");
+		
 	}
 
 }

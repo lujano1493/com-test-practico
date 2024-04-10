@@ -6,5 +6,7 @@ import com.test.practico.entity.Compra;
 
 
 public interface CompraRepository extends JpaRepository<Compra, Long> {
+	
+	long deleteByClienteId(long id );
 
 }
