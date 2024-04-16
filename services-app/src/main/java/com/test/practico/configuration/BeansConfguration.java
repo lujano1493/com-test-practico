@@ -2,6 +2,7 @@ package com.test.practico.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -14,18 +15,24 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.test.practico.aspect.LoggingTimeAspect;
 import com.test.practico.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
 
 @Configuration
+@EnableAspectJAutoProxy
 @RequiredArgsConstructor
 public class BeansConfguration {
 
     private final UserRepository userRepository;
 
-   
+  /*  @Bean
+    public LoggingTimeAspect loggingTimeAspect() {
+    	return new LoggingTimeAspect();
+    }
+   */
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByEmail(username)

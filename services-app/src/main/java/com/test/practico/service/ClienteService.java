@@ -34,10 +34,10 @@ public class ClienteService {
 			if( !clienteRepository.existsById(id) ) {
 				throw new ResponseStatusException( HttpStatus.NOT_FOUND ,"cliente no encontrado");
 			}
-			cliente.setId(id);
+			cliente=clienteRepository.findById(id).get();
 		}
 		
-		cliente=clienteRepository.save(cliente);
+		clienteRepository.save(cliente);
 		compraService.saveCompras(cliente, clienteCreateDtoRequest.getCompras()  );
 		
 	}
@@ -52,7 +52,7 @@ public class ClienteService {
 		
 	}
 
-
+	@Transactional(readOnly = true)
 	public Cliente findById(Long id) {
 		
 		return clienteRepository.findById(id).orElseThrow( 

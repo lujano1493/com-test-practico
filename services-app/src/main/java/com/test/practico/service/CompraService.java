@@ -27,8 +27,6 @@ import com.test.practico.repository.CompraRepository;
 public class CompraService {
 	@Autowired
 	private CompraRepository compraRepository;
-	@Autowired
-	private CompraDetalleRepository compraDetalleRepository;
 	
 	
 	@Autowired
@@ -52,8 +50,8 @@ public class CompraService {
 		if(  cliente.getCompras() !=null) {
 			   // Eliminar todas las compras asociadas al cliente
 	        cliente.getCompras().forEach( (compra)->{
-	        	List<CompraDetalle>  detalles= compra.getDetalles();
-	        	compraDetalleRepository.deleteAll(detalles);
+	        	//compra.setCliente(null);
+	        	//compra.getDetalles().forEach(  d -> d.setCompra(null)  );
 	        	compraRepository.delete(compra)	;
 	        });
 
